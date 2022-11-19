@@ -1,8 +1,9 @@
 package com.github.services;
 
-import com.github.models.Filter;
-import com.github.models.Order;
-import com.github.models.Root;
+import com.github.jsons.Root;
+import com.github.operations.Filter;
+import com.github.operations.Order;
+import com.github.rest.FindRepositoriesServiceRest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,29 +19,12 @@ public class FindRepositoriesService {
         this.findRepositoriesServiceRest = findRepositoriesServiceRest;
     }
 
-    public Collection<Root> execute(final String user, final String filter, final String order) {
-        final var filterOperation = getFilter(filter);
-        final var orderOperation = getOrder(order);
+    public Collection<Root> execute(final String user, final Filter filter, final Order order) {
+        log.info("Filter: {}", filter.getValue());
+        log.info("Order: {}", order.getValue());
         final var root = findRepositoriesServiceRest.execute(user);
-        final var rootFiltered = filterOperation.filter(root);
-        return orderOperation.order(rootFiltered);
+        final var rootFiltered = filter.execute(root);
+        return order.execute(rootFiltered);
     }
 
-    private Filter getFilter(final String filter) {
-        try {
-            return Filter.valueOf(filter);
-        } catch (final Exception exception) {
-            log.error("Filter not found: {}", exception.getMessage());
-            return Filter.ACTIVE;
-        }
-    }
-
-    private Order getOrder(final String order) {
-        try {
-            return Order.valueOf(order);
-        } catch (final Exception exception) {
-            log.error("Order not found: {}", exception.getMessage());
-            return Order.ALPHABETICAL;
-        }
-    }
 }

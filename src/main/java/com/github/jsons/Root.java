@@ -1,9 +1,11 @@
-package com.github.models;
+package com.github.jsons;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 public class Root {
     public int id;
     public String node_id;

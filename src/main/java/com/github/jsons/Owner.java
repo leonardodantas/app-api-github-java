@@ -1,5 +1,8 @@
-package com.github.models;
+package com.github.jsons;
 
+import lombok.Getter;
+
+@Getter
 public class Owner {
     public String login;
     public int id;
