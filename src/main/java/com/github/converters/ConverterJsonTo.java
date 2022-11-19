@@ -3,6 +3,7 @@ package com.github.converters;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.exceptions.JsonException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -15,7 +16,7 @@ public class ConverterJsonTo {
             return objectMapper.readValue(message, klass);
         } catch (final JsonProcessingException e) {
             log.error("Error convert json: {}", e.getMessage());
-            throw new RuntimeException(e);
+            throw new JsonException(e.getMessage());
         }
     }
 
@@ -24,7 +25,7 @@ public class ConverterJsonTo {
             return objectMapper.readValue(message, klass);
         } catch (final JsonProcessingException e) {
             log.error("Error convert json: {}", e.getMessage());
-            throw new RuntimeException(e);
+            throw new JsonException(e.getMessage());
         }
     }
 }
