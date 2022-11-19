@@ -47,9 +47,6 @@ public class FindRepositoriesControllerTest {
         final var response = fileRepository.getContent("root-list", new TypeReference<List<Root>>() {
         });
 
-        when(findRepositoriesService.execute(anyString(), any(), any()))
-                .thenReturn(response);
-
         mockMvc.perform(MockMvcRequestBuilders.get("/repositories/leonardodantas")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -61,12 +58,13 @@ public class FindRepositoriesControllerTest {
         final var response = fileRepository.getContent("root-list", new TypeReference<List<Root>>() {
         });
 
-        when(findRepositoriesService.execute(anyString(), any(), any()))
+        when(findRepositoriesService.execute(anyString(), any(), any(), anyString()))
                 .thenReturn(response);
 
         final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("filter", "active");
         params.add("order", "alphabetical");
+        params.add("search", "github");
 
         mockMvc.perform(MockMvcRequestBuilders.get("/repositories/leonardodantas")
                 .params(params)
@@ -79,9 +77,6 @@ public class FindRepositoriesControllerTest {
     public void shouldExecuteSuccessWithInvalidParams() throws Exception {
         final var response = fileRepository.getContent("root-list", new TypeReference<List<Root>>() {
         });
-
-        when(findRepositoriesService.execute(anyString(), any(), any()))
-                .thenReturn(response);
 
         final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("filter", "disable");

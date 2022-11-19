@@ -20,10 +20,10 @@ public class FindRepositoriesController {
 
     @GetMapping("{user}")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<Root> findAllRepositories(@PathVariable final String user, @RequestParam(required = false) final String filter, @RequestParam(required = false) final String order) {
+    public Collection<Root> findAllRepositories(@PathVariable final String user, @RequestParam(required = false) final String filter, @RequestParam(required = false) final String order, @RequestParam(required = false) final String search) {
         final var filterOperation = GetEnum.filter(filter);
         final var orderOperation = GetEnum.order(order);
-        return findRepositoriesService.execute(user, filterOperation, orderOperation);
+        return findRepositoriesService.execute(user, filterOperation, orderOperation, search);
     }
 
 
