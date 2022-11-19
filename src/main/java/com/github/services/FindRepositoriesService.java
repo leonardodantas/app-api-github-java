@@ -24,13 +24,16 @@ public class FindRepositoriesService {
     }
 
     public Collection<Root> execute(final String user, final Filter filter, final Order order, final String search) {
+        final var root = findRepositoriesServiceRest.execute(user);
+        final var rootFilteredAndOrderly = filterAndOrderRoot(root, filter, order);
+        return searchInList(search, rootFilteredAndOrderly);
+    }
+
+    private List<Root> filterAndOrderRoot(final List<Root> root, final Filter filter, final Order order) {
         log.info("Filter: {}", filter.getValue());
         log.info("Order: {}", order.getValue());
-        final var root = findRepositoriesServiceRest.execute(user);
         final var rootFiltered = filter.execute(root);
-        final var rootFilteredAndOrderly = order.execute(rootFiltered);
-
-        return searchInList(search, rootFilteredAndOrderly);
+        return order.execute(rootFiltered);
     }
 
     private List<Root> searchInList(final String search, final List<Root> rootFilteredAndOrderly) {
